@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,13 +13,9 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'username' => ['required', 'max:32', 'unique:users,username'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:8', 'confirmed', /* 'password_format' */ ], // TODO: Add password validation rule
-       ]);
+        $validated = $request->validated();
 
         $validated['password'] = password_hash($validated['password'], PASSWORD_DEFAULT);
 
@@ -32,7 +29,7 @@ class UserController extends Controller
         return $user->load(['projects', 'owning', 'tasks']);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         //
     }
