@@ -11,9 +11,9 @@ class StoreProjectRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,12 @@ class StoreProjectRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'max:42', 'unique:projects,name'],
+            'username' =>['required', 'exists:App\Models\User,username'],
+            # 'user_id' =>['required', 'exists:App\Models\User,id'],
         ];
     }
 }
