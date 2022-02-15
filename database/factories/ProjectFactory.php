@@ -11,7 +11,7 @@ class ProjectFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence(3),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => User::randomId(),
         ];
     }
 }

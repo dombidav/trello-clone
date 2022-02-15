@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\ApiResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
+/**
+ * @property int user_id
+ * @property User user
+ */
 class Task extends Model
 {
-    use HasFactory;
+    use HasFactory, ApiResource;
 
     protected $guarded = [
         'id',

@@ -12,7 +12,7 @@ class TaskFactory extends Factory
         return [
             'name' => $this->faker->word(),
             'description' => $this->faker->paragraph(),
-            'stage_id' => Stage::inRandomOrder()->first()->id,
+            'stage_id' => Stage::randomId(),
         ];
     }
 }

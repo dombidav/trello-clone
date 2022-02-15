@@ -13,8 +13,9 @@ class TaskSeeder extends Seeder
         $count = 100;
         Task::factory($count)->create();
         $rand = rand($count / 2, floor($count * 0.8));
-        Task::inRandomOrder()->limit($rand)->each(function (Task $task) {
-            $task->user_id = User::inRandomOrder()->first()->id;
+        $asd = User::inRandomOrder()->take($rand)->get();
+        Task::inRandomOrder()->limit($rand)->get()->each(function (Task $task) {
+            $task->user_id = User::randomId();
             $task->save();
         });
     }
