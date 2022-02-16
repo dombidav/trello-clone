@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Utils\ResponseCodes;
 
 class TaskController extends Controller
 {
+<<<<<<< HEAD
     /**
      * Display a listing of the resource.
      *
@@ -17,68 +19,42 @@ class TaskController extends Controller
     {
         return Task::all();
     }
+=======
+>>>>>>> master
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function index()
     {
-        //
+        return Task::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreTaskRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreTaskRequest $request)
+    function store(StoreTaskRequest $request)
     {
         $validated = $request->validated();
+<<<<<<< HEAD
 
        /* $validated[''] = ($request,['' => 'required|max:255',]); */
 
         $task = Task::create($validated);
 
         return response($task, 201);
+=======
+        $task = Task::create($validated);
+        return response($task, ResponseCodes::CREATED);
+>>>>>>> master
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function show(Task $task)
     {
-        //
+        return $task->load(['user', 'project', 'stage']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateTaskRequest  $request
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        $task->update($request->validated());
+        return $task;
     }
 
+<<<<<<< HEAD
      /**
      * Remove the specified resource from storage.
      *
@@ -89,5 +65,11 @@ class TaskController extends Controller
     {
         $task->delete();
         return response()->json(null, 204);
+=======
+    public function destroy(Task $task)
+    {
+        $task->delete();
+        return response()->json(null, ResponseCodes::NO_CONTENT);
+>>>>>>> master
     }
 }

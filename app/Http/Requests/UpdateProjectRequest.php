@@ -14,27 +14,17 @@ use Illuminate\Validation\Rule;
 
 class UpdateProjectRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'min:7', 'max:42', Rule::unique('projects', 'name')->ignore($this->project->id)],
-            'username' => ['username', Rule::unique('users', 'username')->ignore($this->user->id)],
-            # 'user_id' => ['id', Rule::unique('users', 'id')->ignore($this->user->id)],
+            'name' => ['required', 'min:3', 'max:42'],
+            'username' =>['prohibits:user_id', 'exists:users,username'],
+            'user_id' =>['prohibits:username' ,'exists:users,id'],
         ];
     }
 }

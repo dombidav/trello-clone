@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Utils\ResponseCodes;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -21,7 +23,7 @@ class UserController extends Controller
 
         $user = User::create($validated);
 
-        return response($user, 201);
+        return response($user, ResponseCodes::CREATED);
     }
 
     public function show(User $user)
@@ -29,14 +31,22 @@ class UserController extends Controller
         return $user->load(['projects', 'owning', 'tasks']);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $validated = $request->validated();
+
+        if (isset($validated['password'])) {
+            $validated['password'] = password_hash($validated['password'], PASSWORD_DEFAULT);
+        }
+
+        $user->update($validated);
+
+        return $user;
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json(null, 204);
+        return response()->json(null, ResponseCodes::NO_CONTENT);
     }
 }

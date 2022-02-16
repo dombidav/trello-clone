@@ -15,7 +15,7 @@ class UpdateStageRequest extends FormRequest
     {
         return [
             'name' => ['string','max:255'],
-            'project_id' => ['exists:projects']
+            'project_id' => ['exists:projects'],
         ];
     }
 }
