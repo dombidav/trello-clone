@@ -15,7 +15,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        return Task::all();
     }
 
     /**
@@ -36,7 +36,13 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+       /* $validated[''] = ($request,['' => 'required|max:255',]); */
+
+        $task = Task::create($validated);
+
+        return response($task, 201);
     }
 
     /**
@@ -73,7 +79,7 @@ class TaskController extends Controller
         //
     }
 
-    /**
+     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Task  $task
@@ -81,6 +87,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        return response()->json(null, 204);
     }
 }
