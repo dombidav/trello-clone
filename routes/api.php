@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StageController;
 use App\Http\Controllers\TaskController;
@@ -17,7 +18,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('user', UserController::class);
-Route::apiResource('project', ProjectController::class);
-Route::apiResource('stage', StageController::class);
-Route::apiResource('task', TaskController::class);
+Route::group([
+                 'prefix' => 'auth'
+             ], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::apiResource('user', UserController::class);
+    Route::apiResource('project', ProjectController::class);
+    Route::apiResource('stage', StageController::class);
+    Route::apiResource('task', TaskController::class);
+});

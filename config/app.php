@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -167,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -191,7 +191,10 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
-    ])->toArray(),
+         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+
+         // ...
+     ])->toArray(),
 
 ];
