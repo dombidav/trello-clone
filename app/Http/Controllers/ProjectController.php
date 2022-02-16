@@ -5,85 +5,38 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Utils\ResponseCodes;
 
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return Project::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreProjectRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreProjectRequest $request)
     {
         $validated = $request->validated();
-        return response(Project::create($validated), 201);
+        return response(Project::create($validated), ResponseCodes::CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return Project
-     */
+
     public function show(Project $project)
     {
         return $project->load(['user', 'users', 'stages']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateProjectRequest  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $validated = $request->validated();
+        $project->update($validated);
+        return $project;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy(Project $project)
     {
         $project->delete();
-        return response()->json(null, 204);
+        return response()->json(null, ResponseCodes::NO_CONTENT);
     }
 }
