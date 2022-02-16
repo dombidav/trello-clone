@@ -15,7 +15,7 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'stage_id' => ['required', 'exists:tasks'],
-            'name' =>['required','max:32','unique:tasks,name'],
+            'name' =>['required','max:255'],
             'description' =>['required']
         ];
     }

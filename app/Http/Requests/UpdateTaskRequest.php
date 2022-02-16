@@ -17,8 +17,8 @@ class UpdateTaskRequest extends FormRequest
     {
         return [
             'stage_id' => ['exists:tasks'],
-            'name' =>['max:32','unique:tasks,name',Rule::unique('tasks', 'name')->ignore($this->task->id)],
-            'description' =>[]
+            'name' => ['max:255'],
+            'description' => ['string']
         ];
     }
 }
