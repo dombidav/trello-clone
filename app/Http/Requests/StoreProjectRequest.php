@@ -6,27 +6,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProjectRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:42', 'unique:projects,name'],
-            'username' =>['required', 'exists:App\Models\User,username'],
-            # 'user_id' =>['required', 'exists:App\Models\User,id'],
+            'name' => ['required','min:3', 'max:42'],
+            'username' =>['required_without:user_id', 'prohibits:user_id', 'exists:users,username'],
+            'user_id' =>['required_without:username', 'prohibits:username' ,'exists:users,id'],
         ];
     }
 }
