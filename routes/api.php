@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\StageController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('user', [UserController::class, 'index'])->name('user.index');
-Route::post('user', [UserController::class, 'store'])->name('user.store');
-Route::get('user/{user}', [UserController::class, 'show'])->name('user.show');
-Route::put('user/{user}', [UserController::class, 'update'])->name('user.update');
-Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::apiResource('user', UserController::class);
+Route::apiResource('project', ProjectController::class);
+Route::apiResource('stage', StageController::class);
+Route::apiResource('task', TaskController::class);
