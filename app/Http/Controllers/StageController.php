@@ -15,17 +15,7 @@ class StageController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Stage::all();
     }
 
     /**
@@ -36,7 +26,11 @@ class StageController extends Controller
      */
     public function store(StoreStageRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $stage = Stage::created($validated);
+
+        return response($stage, 201);
     }
 
     /**
@@ -47,18 +41,7 @@ class StageController extends Controller
      */
     public function show(Stage $stage)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Stage  $stage
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Stage $stage)
-    {
-        //
+        return $stage->load('name');
     }
 
     /**
@@ -70,7 +53,8 @@ class StageController extends Controller
      */
     public function update(UpdateStageRequest $request, Stage $stage)
     {
-        //
+        $stage->update($request->all());
+        return $stage;
     }
 
     /**
@@ -81,6 +65,6 @@ class StageController extends Controller
      */
     public function destroy(Stage $stage)
     {
-        //
+        $stage->delete();
     }
 }

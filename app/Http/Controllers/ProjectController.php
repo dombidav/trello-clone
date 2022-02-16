@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 
+
 class ProjectController extends Controller
 {
     /**
@@ -15,7 +16,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return Project::all();
     }
 
     /**
@@ -36,18 +37,19 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $validated = $request->validated();
+        return response(Project::create($validated), 201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return Project
      */
     public function show(Project $project)
     {
-        //
+        return $project->load(['user', 'users', 'stages']);
     }
 
     /**
@@ -77,10 +79,11 @@ class ProjectController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return response()->json(null, 204);
     }
 }
