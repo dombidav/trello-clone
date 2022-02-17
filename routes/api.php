@@ -5,6 +5,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StageController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +18,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => ['enforceJson', 'auth']], function(){
-    Route::post('/project/attach', [ProjectController::class, 'attach']);
-    Route::post('/project/detach', [ProjectController::class, 'detach']);
-
+Route::group(['middleware' => 'auth.api'], function(){
     Route::apiResource('user', UserController::class);
     Route::apiResource('project', ProjectController::class);
     Route::apiResource('stage', StageController::class);

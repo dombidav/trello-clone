@@ -11,7 +11,6 @@
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
-        "silber/bouncer": "v1.0.0-rc.12",
         "tomfordrumm/jwt-auth": "dev-develop"
     },
     "require-dev": {
