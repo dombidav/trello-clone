@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AttachRequest;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -13,15 +14,16 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        return Project::all();
+        if(auth()->user()->can('index', Project::class))
+            return Project::all();
+
+        return auth()->user()->projects;
     }
 
     public function store(StoreProjectRequest $request)
     {
         $validated = $request->validated();
-        if(!isset($validated['user_id'])){
-            $validated['user_id'] = User::where('username', '=', $validated['username'])->first()->id;
-        }
+        $validated['user_id'] = auth()->user()->id;
         return response(Project::create($validated), ResponseCodes::CREATED);
     }
 
@@ -41,6 +43,13 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
+        return response()->json(null, ResponseCodes::NO_CONTENT);
+    }
+
+    public function attach(AttachRequest $request) {
+        $user = User::findOrFail($request->user_id);
+        $project = Project::findOrFail($request->project_id);
+        $user->projects()->attach($project);
         return response()->json(null, ResponseCodes::NO_CONTENT);
     }
 }
