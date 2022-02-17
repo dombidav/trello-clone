@@ -2,21 +2,20 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Project;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProjectRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->can('projects.create') || auth()->user()->can('create', Project::class);
     }
 
     public function rules(): array
     {
         return [
-            'name' => ['required','min:3', 'max:42'],
-            'username' =>['required_without:user_id', 'prohibits:user_id', 'exists:users,username'],
-            'user_id' => ['required_without:username', 'prohibits:username' ,'exists:users,id'],
+            'name' => ['required','min:3', 'max:42']
         ];
     }
 }
