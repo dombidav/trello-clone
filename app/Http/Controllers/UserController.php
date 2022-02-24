@@ -12,7 +12,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        return User::all();
+        if(auth()->user()?->can('index', User::class)) {
+            return response()->json(User::all());
+        }
+        abort( auth()->user() ? ResponseCodes::FORBIDDEN : ResponseCodes::UNAUTHORIZED);
     }
 
     public function store(StoreUserRequest $request)
